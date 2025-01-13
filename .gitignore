@@ -154,7 +154,16 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# For project
 Database/photos
+Database/photos_to_delete
+AI/models
+AI/models/siamese_version1.pth
+/Database/photos
+/Database/photos_to_delete
+/AI/models
+/AI/models/siamese_version1.pth
+*.pth
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

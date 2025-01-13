@@ -2,7 +2,7 @@ import os
 
 def print_tree(startpath, indent=''):
     """
-    Rekurencyjnie drukuje strukturę folderów i plików w formacie drzewa.
+    Show folder and file structure
     """
     for item in os.listdir(startpath):
         path = os.path.join(startpath, item)
@@ -10,6 +10,6 @@ def print_tree(startpath, indent=''):
         if os.path.isdir(path):
             print_tree(path, indent + "|   ")
 
-# Podaj ścieżkę do folderu, który chcesz wyświetlić
+# Change it to your path
 root_folder = "G:\project\Thesis"
 print_tree(root_folder)

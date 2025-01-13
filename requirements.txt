@@ -1,11 +1,10 @@
-# Overall
 pillow
 numpy
-io
-# For GPSMapGetter
 python-dotenv
 numpy
-PIL
 requests
-# AI models
 tensorflow
+opencv-contrib-python-headless
+torch
+pandas
+matplotlib
