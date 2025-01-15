@@ -23,19 +23,16 @@ class SiameseNetwork(nn.Module):
 
         
     def forward(self, large_image, small_image):
-        print(large_image.shape)
         # Extract features from both images
         large_features = self.feature_extractor(large_image)
         small_features = self.feature_extractor(small_image)
         
-        print(large_image.shape)
         # Flatten and concatenate features
         combined_features = torch.cat(
             (large_features.view(large_features.size(0), -1),
              small_features.view(small_features.size(0), -1)),
             dim=1
         )
-        print(combined_features.shape)
         # Predict bounding box
         bbox = self.bbox_head(combined_features)
         return bbox

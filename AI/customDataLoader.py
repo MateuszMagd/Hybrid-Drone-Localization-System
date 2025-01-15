@@ -4,6 +4,7 @@ import torchvision.transforms as transforms
 import pandas as pd
 from PIL import Image
 import os
+from Utils.imageoperations import coordinates_to_pixels
 
 class ImagePairDataset(Dataset):
     def __init__(self, csv_file, image_folder, transform=None):
@@ -20,15 +21,16 @@ class ImagePairDataset(Dataset):
             large_image_path = os.path.join(self.image_folder, f"{row['CityName']}_{row['index']}_zoom17.png")
             small_image_path = os.path.join(self.image_folder, f"{row['CityName']}_{row['index']}_zoom19.png")
 
-            # Calculate normalized bounding box coordinates
-            x_center = (row['NewLongitude'] - row['RandomLongitude']) / 0.05 + 0.5
-            y_center = (row['NewLatitude'] - row['RandomLatitude']) / 0.05 + 0.5
+            new_longitude_pixel, new_latitude_pixel = coordinates_to_pixels((row['RandomLongitude'], row['RandomLatitude']), (row['NewLongitude'], row['NewLatitude']))
+            
+            # Calculate bounding box 
+            x_center = new_longitude_pixel
+            y_center = new_latitude_pixel
             box_size = 0.1  # Assuming small image is 10% of the large image in width/height
             x_min = x_center - box_size / 2
             y_min = y_center - box_size / 2
             x_max = x_center + box_size / 2
             y_max = y_center + box_size / 2
-
             bbox = torch.tensor([x_min, y_min, x_max, y_max], dtype=torch.float32)
 
             # Load and preprocess images
@@ -55,12 +57,12 @@ transform = transforms.Compose([
     transforms.ToTensor()
 ])
 
-current_path = os.getcwd()
-print("Current Path:", current_path)
-
 csv_file = 'Database/sample_coords.csv'
 image_dir = 'Database/photos'
 
 # Example usage
 large_image_path = "Database/photos/Chicago_20_zoom17.png"
 small_image_path = "Database/photos/Chicago_20_zoom19.png"
+
+# Variable
+epochs = 2

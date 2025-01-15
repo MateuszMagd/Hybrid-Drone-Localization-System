@@ -6,10 +6,9 @@ from Utils.imageoperations import convert_pil_to_opencv, displey_two_images
 
 
 def placeMatcher(drone_data: DroneData):
-    image = drone_data.droneImage
-
-    lat = drone_data.droneCoords[0]
-    lon = drone_data.droneCoords[1]
+    
+    image = drone_data.getImage()
+    lat, lon = drone_data.getCoords()
 
     goolge_image = convert_pil_to_opencv(get_google_maps_image(lat=lat, lon=lon, zoom=19))
 

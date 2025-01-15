@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
-from model import SiameseNetwork
-from customDataLoader import ImagePairDataset, transform, csv_file, image_dir
+from AI.model import SiameseNetwork
+from AI.customDataLoader import ImagePairDataset, transform, csv_file, image_dir, l_epochs
 import os
 
 def custom_collate_fn(batch):
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     dataloader = DataLoader(dataset, batch_size=4, shuffle=True, collate_fn=custom_collate_fn)
 
     # Training 
-    epochs = 2
+    epochs = l_epochs
     for epoch in range(epochs):
         model.train()
         loss = 0.0
@@ -52,9 +52,7 @@ if __name__ == '__main__':
             optimizer.step()
 
             loss += loss.item()
-            break
-        break
         print(f'Epoch {epoch+1}/{epochs}, Loss {loss:.4f}')
 
-    torch.save(model.state_dict(), 'siamese.pth')
+    torch.save(model.state_dict(), 'AI/models/siamese.pth')
     print('Model saved')

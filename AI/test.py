@@ -1,7 +1,7 @@
 import torch
 from PIL import Image
-from customDataLoader import transform, large_image_path, small_image_path
-from model import SiameseNetwork
+from AI.customDataLoader import transform, large_image_path, small_image_path
+from AI.model import SiameseNetwork
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
@@ -23,6 +23,7 @@ def predict_small_image_location(model, large_image_path, small_image_path, tran
 
 # Function to visualize the results
 def visualize_results(large_image_path, small_image_path, bbox):
+    print(bbox)
     # Load images
     large_image = Image.open(large_image_path).convert("RGB")
     small_image = Image.open(small_image_path).convert("RGB")
@@ -49,16 +50,28 @@ def visualize_results(large_image_path, small_image_path, bbox):
     bbox = bbox[0]  # Assuming bbox is [[x_min, y_min, x_max, y_max]]
     x_min, y_min, x_max, y_max = bbox
     
-    size = 5  # Image size
+    size = 100
 
     # Add bounding box as a rectangle
     rect = patches.Rectangle(
-        (x_min * size, y_min * size),   # Convert normalized coordinates to pixel space
-        (x_max - x_min) * size,       # Width
-        (y_max - y_min) * size,       # Height
+        (x_min, y_min),   # Coordinates
+        size,       # Width
+        size,       # Height
         linewidth=2, edgecolor="red", facecolor="none"
     )
+
+    # Add bounding box as a rectangle
+    rect_max = patches.Rectangle(
+        (x_max, y_max),   # Coordinates
+        size,       # Width
+        size,       # Height
+        linewidth=2, edgecolor="blue", facecolor="none"
+    )
+
+    print(rect)
+    print(rect_max)
     axs[2].add_patch(rect)
+    axs[2].add_patch(rect_max)
 
     # Show the plot
     plt.tight_layout()
@@ -70,7 +83,7 @@ if __name__ == '__main__':
     model = SiameseNetwork().to(device)
 
     # Load trained weights
-    model.load_state_dict(torch.load("siamese.pth", map_location=device))
+    model.load_state_dict(torch.load("AI/models/siamese.pth", map_location=device))
     model.eval()
 
     bbox = predict_small_image_location(model, large_image_path, small_image_path, transform)
