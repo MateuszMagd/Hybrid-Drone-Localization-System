@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Project
+database/raw_photos
+database/ready_to_label
+database/rr_labeled_photos
+
 # Virtual environment
 .venv/
 .env/

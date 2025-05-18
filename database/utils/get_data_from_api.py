@@ -7,7 +7,7 @@ import os
 import requests
 from PIL import Image
 from io import BytesIO
-from database.utils.image_handler import display_image, displey_two_images
+from utils.image_handler import display_image, displey_two_images
 
 def get_google_maps_image(lat, lon, api_key=None, zoom=18, size='640x640'):
     '''
